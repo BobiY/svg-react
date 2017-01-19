@@ -1,18 +1,20 @@
 import React,{Component} from "react";
+import { createChart, createCon} from "./tool";
+import {Position} from "./position"
 
-let chartId = 1;
 class LeftPart extends Component{
   constructor(props) {
     super(props);
+
   }
   render(){
-    const {getPos, getSize, getStyle, createChart} = this.props
+    const {getPos, getSize, getStyle, createChart, currentObj} = this.props
      return(
        <div>
           <Button createChart = {createChart}/>
-          <Position getPos = {getPos}/>
-          <Size getSize = {getSize}/>
-          <Color getStyle = {getStyle}/>
+          <Position getPos = {getPos} currentObj = {currentObj}/>
+          <Size getSize = {getSize} currentObj = {currentObj}/>
+          <Color getStyle = {getStyle} currentObj = {currentObj}/>
        </div>
      )
   }
@@ -48,45 +50,6 @@ class Button extends Component{
   }
 };
 
-//这是位置设置区域
-class Position extends Component{
-  constructor(props) {
-     super(props);
-     this.state = {
-       x:100,
-       y:100
-     }
-  }
-  change(e){
-    this.setState({
-       x:this.refs.x.value,
-       y:this.refs.y.value
-    })
-    this.props.getPos(this.refs.x.value,this.refs.y.value)
-  }
-
-  render(){
-    return(
-      <div className = "posBox">
-
-         <div>
-            <h4>{"在此处选择横坐标"}</h4>
-            <span>X:</span>
-            {" "}
-            <input type = "range" min = "0" max = "800" defaultValue = "100" onChange = {this.change.bind(this)} ref = "x"/>
-            {this.state.x}
-         </div>
-         <div>
-            <h4>{"在此处选择纵坐标"}</h4>
-            <span>Y:</span>
-            {" "}
-            <input type = "range" min = "0" max = "800" ref = "y" defaultValue = "100" onChange = {this.change.bind(this)}/>
-            {this.state.y}
-         </div>
-      </div>
-    )
-  }
-};
 
 //这是尺寸设置区域
 class Size extends Component{
@@ -151,109 +114,6 @@ class Color extends Component{
   }
 };
 
-function createChart(type) {
-    let temObj = {}
-    if(type === "rect"){
-        temObj = {
-          type,
-          id:chartId,
-          width:300,
-          height:300,
-          x:100,
-          y:100,
-          style:{
-            stroke:"#ff0000",
-            strokeWidth:1,
-            fill:"#ffffff"
-          }
-       }
-    }
-    if(type === "circle"){
-        temObj = {
-          type,
-          id:chartId,
-          cx:200,
-          cy:200,
-          r:50,
-          style:{
-            stroke:"#ff0000",
-            strokeWidth:1,
-            fill:"#ffffff"
-          }
-       }
-    }
-    if(type === "ellipse"){
-        temObj = {
-          type,
-          id:chartId,
-          cx:50,
-          cy:50,
-          rx:100,
-          ry:50,
-          style:{
-            stroke:"#ff0000",
-            strokeWidth:1,
-            fill:"#ffffff"
-          }
-       }
-    }
-    if(type === "line"){
-        temObj = {
-          type,
-          id:chartId,
-          x1:0,
-          y1:0,
-          x2:50,
-          y2:50,
-          style:{
-            stroke:"#ff0000",
-            strokeWidth:1,
-            fill:"#ffffff"
-          }
-       }
-    }
-    chartId++;
-    return temObj;
-}
-/*
-   矩形
-   {
-    type:"rect",
-    id:1,
-    x
-    y
-    width
-    height
-    style
- }
-
-   圆形
-   {
-     type:"circle",
-     id:1,
-     cx,
-     cy,
-     style
-  }
-  椭圆
-  {
-    type:"ellipse",
-    cy,
-    cx
-    rx
-    ry
-    style
-  }
-  直线
-  {
-    type:"line",
-    id:1,
-    x1,
-    y1,
-    x2,
-    y2
-}
-*/
 
 
 

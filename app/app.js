@@ -1,7 +1,7 @@
 import React ,{Component} from "react";
 import {render} from "react-dom";
-import LeftPart from "../Component/left";
-import RightPart from "../Component/right";
+import LeftPart from "../Components/left";
+import RightPart from "../Components/right";
 import "../style/index.css";
 
 class App extends Component{
@@ -22,7 +22,7 @@ class App extends Component{
         strokeWidth:1
       },
       store:[
-        
+
       ]
     }
   }
@@ -52,10 +52,19 @@ class App extends Component{
      })
   }
   createChart(obj){
-     this.state.store.push(obj);
-     console.log(this.state.store);
+     this.setState(function (prevState) {
+          prevState.store.push(obj)
+          return{
+            store:prevState.store
+          }
+     })
+     let num = this.state.store.length;
+       console.log(this.state.store);
   }
   render(){
+    if(this.state.store.length>0){
+        var num = this.state.store.length-1;
+    }
     return(
       <div className = "contain">
          <div className = "leftBox">
@@ -63,6 +72,7 @@ class App extends Component{
                       getSize = {this.getSize.bind(this)}
                       getStyle = {this.getStyle.bind(this)}
                       createChart = {this.createChart.bind(this)}
+                      currentObj = {this.state.store[num]}
              />
          </div>
          <div className = "rightBox">

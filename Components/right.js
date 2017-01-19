@@ -9,7 +9,6 @@ class RightPart extends Component{
   }
   render(){
     const {pos, size ,style} = this.props;
-    console.log(style);
     return(
       <div>
          <svg>

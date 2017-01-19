@@ -1,0 +1,72 @@
+/******************去除默认样式***********************/
+
+*{margin: 0;padding: 0}
+
+/******************最外层容器样式********************/
+
+.contain{
+   width: 100%;
+   height: 800px;
+   display: flex;
+   justify-content: space-between;
+}
+
+
+/*********************左侧控制器样式*******************/
+
+.leftBox{
+  width: 20%;
+  height: 800px;
+  border-right: 1px solid #aaa;
+  padding-left: 50px;
+  box-sizing: border-box;
+}
+.btnBox{
+  width: 100%;
+  height: 50px;
+  border-bottom:1px solid #00c;
+  padding:10px;
+  display: flex;
+  justify-content: space-around;
+  box-sizing: border-box;
+}
+
+.posBox{
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;;
+  justify-content: space-around;
+  border-bottom:1px solid #00c;
+}
+.posBox h4{
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+.sizeBox{
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;;
+  justify-content: space-around;
+  border-bottom:1px solid #00c;
+}
+.colorBox{
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;;
+  justify-content: space-around;
+}
+
+/*********************右侧显示区域样式*******************/
+.rightBox{
+  width: 80%;
+  height: 800px;
+  background: #333;
+}
+
+.rightBox svg{
+  width: 100%;
+  height: 800px;
+}

@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {Rect} from "./RectType";
+import {Rect} from "./component/rectType";
 //这是位置设置区域
 export class Position extends Component{
   constructor(props) {

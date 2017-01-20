@@ -9,7 +9,6 @@ class RightPart extends Component{
     this.draw = this.draw.bind(this)
   }
   draw(){
-    console.log(this.props.store);
     let tu = [];
     this.props.store.forEach(function (val,index) {
         if(val.type === "rect"){

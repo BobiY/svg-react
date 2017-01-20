@@ -51,45 +51,6 @@ class Button extends Component{
   }
 };
 
-
-//这是尺寸设置区域
-/*class Size extends Component{
-  constructor(props) {
-     super(props);
-     this.state = {
-       width:300,
-       height:300
-     }
-  }
-  change(){
-    this.setState({
-      width:this.refs.width.value,
-      height:this.refs.height.value
-    });
-    this.props.getSize(this.refs.width.value,this.refs.height.value)
-  }
-  render(){
-    return(
-      <div className = "sizeBox">
-          <div>
-              <h4>{"在此处选择矩形宽度"}</h4>
-              <span>width:</span>
-              {" "}
-              <input type = "range" min = "0" max = "1000" defaultValue = "300" onChange = {this.change.bind(this)} ref = "width"/>
-              {this.state.width}
-          </div>
-          <div>
-              <h4>{"在此处选择矩形高度"}</h4>
-              <span>height:</span>
-              {" "}
-              <input type = "range" min = "0" max = "1000" defaultValue = "300" onChange = {this.change.bind(this)} ref = "height"/>
-              {this.state.height}
-          </div>
-      </div>
-    )
-  }
-};*/
-
 //这是svg图像的样式设置区域
 class Color extends Component{
   constructor(props) {
@@ -99,17 +60,21 @@ class Color extends Component{
      }
   }
   change(){
-     this.setState({
-       width:this.refs.strokeWidth.value
-     })
+     this.props.currentObj.style = {
+       stroke:this.refs.stroke.value,
+       strokeWidth:this.refs.strokeWidth.value,
+       fill:this.refs.fill.value
+     }
      this.props.getStyle(this.refs.stroke.value,this.refs.fill.value,this.refs.strokeWidth.value)
   }
   render(){
+    const {style} = this.props.currentObj;
+    console.log(style);
     return(
       <div className = "colorBox">
-         <p><span>stoke:</span>{" "}<input type = "color" onChange = {this.change.bind(this)} ref = "stroke" defaultValue = "#ff0000"/></p>
-         <p><span>fill:</span>{" "}<input type = "color" onChange = {this.change.bind(this)} ref = "fill" defaultValue = "#ffffff"/></p>
-         <p><span>stoke-width:</span>{" "}<input type = "range" onChange = {this.change.bind(this)} ref = "strokeWidth" min = "0" max = "10" defaultValue = "1"/>{}</p>
+         <p><span>stoke:</span>{" "}<input type = "color" onChange = {this.change.bind(this)} ref = "stroke" value = {style.stroke}/></p>
+         <p><span>fill:</span>{" "}<input type = "color" onChange = {this.change.bind(this)} ref = "fill" value = {style.fill}/></p>
+         <p><span>stoke-width:</span>{" "}<input type = "range" onChange = {this.change.bind(this)} ref = "strokeWidth" min = "0" max = "10" value = {style.strokeWidth}/>{}</p>
       </div>
     )
   }

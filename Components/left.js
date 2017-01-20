@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import { createChart, createCon} from "./tool";
-import {Position} from "./position"
+import {Position} from "./position";
+import {Size} from "./size";
 
 class LeftPart extends Component{
   constructor(props) {
@@ -44,7 +45,7 @@ class Button extends Component{
           <button onClick = {this.createChart.bind(this,type.rect)}>{type.rect}</button>
           <button onClick = {this.createChart.bind(this,type.circle)}>{type.circle}</button>
           <button onClick = {this.createChart.bind(this,type.ellipse)}>{type.ellipse}</button>
-          <button onClick = {this.createChart.bind(this,type.line)}>{type.line}</button>
+          <button>{type.line}</button>
       </div>
     )
   }
@@ -52,7 +53,7 @@ class Button extends Component{
 
 
 //这是尺寸设置区域
-class Size extends Component{
+/*class Size extends Component{
   constructor(props) {
      super(props);
      this.state = {
@@ -87,7 +88,7 @@ class Size extends Component{
       </div>
     )
   }
-};
+};*/
 
 //这是svg图像的样式设置区域
 class Color extends Component{

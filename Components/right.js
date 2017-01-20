@@ -6,13 +6,30 @@ class RightPart extends Component{
     this.state = {
       width:300
     }
+    this.draw = this.draw.bind(this)
+  }
+  draw(){
+    console.log(this.props.store);
+    let tu = [];
+    this.props.store.forEach(function (val,index) {
+        if(val.type === "rect"){
+          tu.push(<rect width = {val.width} height = {val.height} style = {val.style} key = {index} x = {val.x} y = {val.y}/>)
+        }
+        if(val.type === "circle"){
+          tu.push(<circle cx = {val.cx} cy = {val.cy} style = {val.style} r = {val.r} key = {index}/>)
+        }
+        if(val.type === "ellipse"){
+          tu.push(<ellipse cx = {val.cx} cy = {val.cy} style = {val.style} rx = {val.rx} ry = {val.ry} key = {index}/>)
+        }
+    })
+    return tu
   }
   render(){
     const {pos, size ,style} = this.props;
     return(
       <div>
          <svg>
-             <rect width = {size.w} height = {size.h} style = {style} x = {pos.x} y = {pos.y}/>
+             {this.draw()}
          </svg>
       </div>
     )

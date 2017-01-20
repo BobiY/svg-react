@@ -22,9 +22,22 @@ class App extends Component{
         strokeWidth:1
       },
       store:[
-
+        {
+          type:"rect",
+          id:1,
+          width:300,
+          height:300,
+          x:100,
+          y:100,
+          style:{
+            stroke:"#ff0000",
+            strokeWidth:1,
+            fill:"#ffffff"
+          }
+        }
       ]
     }
+    this.getPos = this.getPos.bind(this);
   }
   getPos(x,y){
     this.setState({
@@ -52,14 +65,10 @@ class App extends Component{
      })
   }
   createChart(obj){
-     this.setState(function (prevState) {
-          prevState.store.push(obj)
-          return{
-            store:prevState.store
-          }
-     })
-     let num = this.state.store.length;
-       console.log(this.state.store);
+     this.state.store.push(obj)
+     let num = this.state.store.length-1;
+     this.getPos(this.state.store[num].x,this.state.store[num].y);
+     this.getSize(this.state.store[num].width,this.state.store[num].height)
   }
   render(){
     if(this.state.store.length>0){
@@ -68,7 +77,7 @@ class App extends Component{
     return(
       <div className = "contain">
          <div className = "leftBox">
-            <LeftPart getPos = {this.getPos.bind(this)}
+            <LeftPart getPos = {this.getPos}
                       getSize = {this.getSize.bind(this)}
                       getStyle = {this.getStyle.bind(this)}
                       createChart = {this.createChart.bind(this)}
@@ -79,6 +88,7 @@ class App extends Component{
             <RightPart pos = {this.state.pos}
                        size = {this.state.size}
                        style = {this.state.style}
+                       store = {this.state.store}
             />
          </div>
       </div>

@@ -1,6 +1,6 @@
 
 //处理生成图形的函数
-let chartId = 1;
+let chartId = 2;
 export function createChart(type) {
     let temObj = {}
     if(type === "rect"){
@@ -105,3 +105,4 @@ export function createChart(type) {
     style
 }
 */
+//各个图形的名字数据

@@ -8,11 +8,9 @@ export class RectPos extends Component{
   change(e){
     this.props.currentObj.x = this.refs.x.value;
     this.props.currentObj.y = this.refs.y.value;
-    console.log(this.props.currentObj);
     this.props.getPos(this.refs.x.value,this.refs.y.value);
   }
   componentWillMount(){
-    console.log("我执行了");
     this.props.getPos(this.props.currentObj.x,this.props.currentObj.y);
   }
   render(){

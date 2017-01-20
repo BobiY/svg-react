@@ -29,8 +29,7 @@ class Button extends Component{
       type:{
         rect:"rect",
         circle:"circle",
-        ellipse:"ellipse",
-        line:"line"
+        ellipse:"ellipse"
       }
     }
   }
@@ -45,7 +44,6 @@ class Button extends Component{
           <button onClick = {this.createChart.bind(this,type.rect)}>{type.rect}</button>
           <button onClick = {this.createChart.bind(this,type.circle)}>{type.circle}</button>
           <button onClick = {this.createChart.bind(this,type.ellipse)}>{type.ellipse}</button>
-          <button>{type.line}</button>
       </div>
     )
   }
@@ -69,7 +67,6 @@ class Color extends Component{
   }
   render(){
     const {style} = this.props.currentObj;
-    console.log(style);
     return(
       <div className = "colorBox">
          <p><span>stoke:</span>{" "}<input type = "color" onChange = {this.change.bind(this)} ref = "stroke" value = {style.stroke}/></p>

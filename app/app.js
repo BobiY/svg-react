@@ -35,7 +35,8 @@ class App extends Component{
             fill:"#ffffff"
           }
         }
-      ]
+      ],
+      currentObj:{}
     }
     this.getPos = this.getPos.bind(this);
   }
@@ -64,6 +65,11 @@ class App extends Component{
      }
      })
   }
+  getCurrentObj(val){
+     this.setState({
+       currentObj:val
+     })
+  }
   createChart(obj){
      this.state.store.push(obj)
      let num = this.state.store.length-1;
@@ -74,6 +80,7 @@ class App extends Component{
     if(this.state.store.length>0){
         var num = this.state.store.length-1;
     }
+    let temObj = this.state.currentObj.id ? this.state.currentObj : this.state.store[num];
     return(
       <div className = "contain">
          <div className = "leftBox">
@@ -81,7 +88,7 @@ class App extends Component{
                       getSize = {this.getSize.bind(this)}
                       getStyle = {this.getStyle.bind(this)}
                       createChart = {this.createChart.bind(this)}
-                      currentObj = {this.state.store[num]}
+                      currentObj = {temObj}
              />
          </div>
          <div className = "rightBox">
@@ -89,6 +96,7 @@ class App extends Component{
                        size = {this.state.size}
                        style = {this.state.style}
                        store = {this.state.store}
+                       getCurrentObj = {this.getCurrentObj.bind(this)}
             />
          </div>
       </div>

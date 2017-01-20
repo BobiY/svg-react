@@ -14,7 +14,8 @@ export function createChart(type) {
           style:{
             stroke:"#ff0000",
             strokeWidth:1,
-            fill:"#ffffff"
+            fill:"#ffffff",
+            zIdex:1
           }
        }
     }

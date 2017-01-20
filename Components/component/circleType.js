@@ -9,11 +9,9 @@ export class CirclePos extends Component{
   change(e){
     this.props.currentObj.cx = this.refs.cx.value;
     this.props.currentObj.cy = this.refs.cy.value;
-    console.log(this.props.currentObj);
     this.props.getPos(this.refs.cx.value,this.refs.cy.value);
   }
   componentWillMount(){
-    console.log("我执行了");
     this.props.getPos(this.props.currentObj.cx,this.props.currentObj.cy);
   }
   render(){
@@ -45,7 +43,6 @@ export class CircleSize extends Component{
   }
   change(){
     this.props.currentObj.r  = this.refs.r.value;
-    console.log(this.props.currentObj.r);
     this.props.getSize()
   }
   render(){

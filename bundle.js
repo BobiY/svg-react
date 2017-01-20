@@ -106,7 +106,8 @@
 	          strokeWidth: 1,
 	          fill: "#ffffff"
 	        }
-	      }]
+	      }],
+	      currentObj: {}
 	    };
 	    _this.getPos = _this.getPos.bind(_this);
 	    return _this;
@@ -144,6 +145,13 @@
 	      });
 	    }
 	  }, {
+	    key: "getCurrentObj",
+	    value: function getCurrentObj(val) {
+	      this.setState({
+	        currentObj: val
+	      });
+	    }
+	  }, {
 	    key: "createChart",
 	    value: function createChart(obj) {
 	      this.state.store.push(obj);
@@ -157,6 +165,7 @@
 	      if (this.state.store.length > 0) {
 	        var num = this.state.store.length - 1;
 	      }
+	      var temObj = this.state.currentObj.id ? this.state.currentObj : this.state.store[num];
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "contain" },
@@ -167,7 +176,7 @@
 	            getSize: this.getSize.bind(this),
 	            getStyle: this.getStyle.bind(this),
 	            createChart: this.createChart.bind(this),
-	            currentObj: this.state.store[num]
+	            currentObj: temObj
 	          })
 	        ),
 	        _react2.default.createElement(
@@ -176,7 +185,8 @@
 	          _react2.default.createElement(_right2.default, { pos: this.state.pos,
 	            size: this.state.size,
 	            style: this.state.style,
-	            store: this.state.store
+	            store: this.state.store,
+	            getCurrentObj: this.getCurrentObj.bind(this)
 	          })
 	        )
 	      );
@@ -21743,8 +21753,7 @@
 	      type: {
 	        rect: "rect",
 	        circle: "circle",
-	        ellipse: "ellipse",
-	        line: "line"
+	        ellipse: "ellipse"
 	      }
 	    };
 	    return _this2;
@@ -21778,11 +21787,6 @@
 	          "button",
 	          { onClick: this.createChart.bind(this, type.ellipse) },
 	          type.ellipse
-	        ),
-	        _react2.default.createElement(
-	          "button",
-	          null,
-	          type.line
 	        )
 	      );
 	    }
@@ -21824,7 +21828,6 @@
 	    value: function render() {
 	      var style = this.props.currentObj.style;
 
-	      console.log(style);
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "colorBox" },
@@ -21898,7 +21901,8 @@
 	      style: {
 	        stroke: "#ff0000",
 	        strokeWidth: 1,
-	        fill: "#ffffff"
+	        fill: "#ffffff",
+	        zIdex: 1
 	      }
 	    };
 	  }
@@ -22108,13 +22112,11 @@
 	    value: function change(e) {
 	      this.props.currentObj.x = this.refs.x.value;
 	      this.props.currentObj.y = this.refs.y.value;
-	      console.log(this.props.currentObj);
 	      this.props.getPos(this.refs.x.value, this.refs.y.value);
 	    }
 	  }, {
 	    key: "componentWillMount",
 	    value: function componentWillMount() {
-	      console.log("我执行了");
 	      this.props.getPos(this.props.currentObj.x, this.props.currentObj.y);
 	    }
 	  }, {
@@ -22275,13 +22277,11 @@
 	    value: function change(e) {
 	      this.props.currentObj.cx = this.refs.cx.value;
 	      this.props.currentObj.cy = this.refs.cy.value;
-	      console.log(this.props.currentObj);
 	      this.props.getPos(this.refs.cx.value, this.refs.cy.value);
 	    }
 	  }, {
 	    key: "componentWillMount",
 	    value: function componentWillMount() {
-	      console.log("我执行了");
 	      this.props.getPos(this.props.currentObj.cx, this.props.currentObj.cy);
 	    }
 	  }, {
@@ -22346,7 +22346,6 @@
 	    key: "change",
 	    value: function change() {
 	      this.props.currentObj.r = this.refs.r.value;
-	      console.log(this.props.currentObj.r);
 	      this.props.getSize();
 	    }
 	  }, {
@@ -22423,13 +22422,11 @@
 	    value: function change(e) {
 	      this.props.currentObj.cx = this.refs.cx.value;
 	      this.props.currentObj.cy = this.refs.cy.value;
-	      console.log(this.props.currentObj);
 	      this.props.getPos(this.refs.cx.value, this.refs.cy.value);
 	    }
 	  }, {
 	    key: "componentWillMount",
 	    value: function componentWillMount() {
-	      console.log("我执行了");
 	      this.props.getPos(this.props.currentObj.cx, this.props.currentObj.cy);
 	    }
 	  }, {
@@ -22654,22 +22651,31 @@
 	      width: 300
 	    };
 	    _this.draw = _this.draw.bind(_this);
+	    _this.click = _this.click.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(RightPart, [{
+	    key: "click",
+	    value: function click(val) {
+	      console.log(val.style.zIndex);
+	      val.style.zIndex = val.style.zIndex * 10;
+	      this.props.getCurrentObj(val);
+	    }
+	  }, {
 	    key: "draw",
 	    value: function draw() {
 	      var tu = [];
+	      var t = this;
 	      this.props.store.forEach(function (val, index) {
 	        if (val.type === "rect") {
-	          tu.push(_react2.default.createElement("rect", { width: val.width, height: val.height, style: val.style, key: index, x: val.x, y: val.y }));
+	          tu.push(_react2.default.createElement("rect", { width: val.width, height: val.height, style: val.style, key: index, x: val.x, y: val.y, onClick: t.click.bind(this, val) }));
 	        }
 	        if (val.type === "circle") {
-	          tu.push(_react2.default.createElement("circle", { cx: val.cx, cy: val.cy, style: val.style, r: val.r, key: index }));
+	          tu.push(_react2.default.createElement("circle", { cx: val.cx, cy: val.cy, style: val.style, r: val.r, key: index, onClick: t.click.bind(this, val) }));
 	        }
 	        if (val.type === "ellipse") {
-	          tu.push(_react2.default.createElement("ellipse", { cx: val.cx, cy: val.cy, style: val.style, rx: val.rx, ry: val.ry, key: index }));
+	          tu.push(_react2.default.createElement("ellipse", { cx: val.cx, cy: val.cy, style: val.style, rx: val.rx, ry: val.ry, key: index, onClick: t.click.bind(this, val) }));
 	        }
 	      });
 	      return tu;

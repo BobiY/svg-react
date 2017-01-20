@@ -58,11 +58,11 @@
 
 	var _left2 = _interopRequireDefault(_left);
 
-	var _right = __webpack_require__(182);
+	var _right = __webpack_require__(185);
 
 	var _right2 = _interopRequireDefault(_right);
 
-	__webpack_require__(183);
+	__webpack_require__(186);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -94,8 +94,21 @@
 	        fill: "#fff",
 	        strokeWidth: 1
 	      },
-	      store: []
+	      store: [{
+	        type: "rect",
+	        id: 1,
+	        width: 300,
+	        height: 300,
+	        x: 100,
+	        y: 100,
+	        style: {
+	          stroke: "#ff0000",
+	          strokeWidth: 1,
+	          fill: "#ffffff"
+	        }
+	      }]
 	    };
+	    _this.getPos = _this.getPos.bind(_this);
 	    return _this;
 	  }
 
@@ -133,14 +146,10 @@
 	  }, {
 	    key: "createChart",
 	    value: function createChart(obj) {
-	      this.setState(function (prevState) {
-	        prevState.store.push(obj);
-	        return {
-	          store: prevState.store
-	        };
-	      });
-	      var num = this.state.store.length;
-	      console.log(this.state.store);
+	      this.state.store.push(obj);
+	      var num = this.state.store.length - 1;
+	      this.getPos(this.state.store[num].x, this.state.store[num].y);
+	      this.getSize(this.state.store[num].width, this.state.store[num].height);
 	    }
 	  }, {
 	    key: "render",
@@ -154,7 +163,7 @@
 	        _react2.default.createElement(
 	          "div",
 	          { className: "leftBox" },
-	          _react2.default.createElement(_left2.default, { getPos: this.getPos.bind(this),
+	          _react2.default.createElement(_left2.default, { getPos: this.getPos,
 	            getSize: this.getSize.bind(this),
 	            getStyle: this.getStyle.bind(this),
 	            createChart: this.createChart.bind(this),
@@ -166,7 +175,8 @@
 	          { className: "rightBox" },
 	          _react2.default.createElement(_right2.default, { pos: this.state.pos,
 	            size: this.state.size,
-	            style: this.state.style
+	            style: this.state.style,
+	            store: this.state.store
 	          })
 	        )
 	      );
@@ -21674,6 +21684,8 @@
 
 	var _position = __webpack_require__(180);
 
+	var _size = __webpack_require__(184);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21706,7 +21718,7 @@
 	        null,
 	        _react2.default.createElement(Button, { createChart: createChart }),
 	        _react2.default.createElement(_position.Position, { getPos: getPos, currentObj: currentObj }),
-	        _react2.default.createElement(Size, { getSize: getSize, currentObj: currentObj }),
+	        _react2.default.createElement(_size.Size, { getSize: getSize, currentObj: currentObj }),
 	        _react2.default.createElement(Color, { getStyle: getStyle, currentObj: currentObj })
 	      );
 	    }
@@ -21769,7 +21781,7 @@
 	        ),
 	        _react2.default.createElement(
 	          "button",
-	          { onClick: this.createChart.bind(this, type.line) },
+	          null,
 	          type.line
 	        )
 	      );
@@ -21782,94 +21794,57 @@
 	;
 
 	//这是尺寸设置区域
-
-	var Size = function (_Component3) {
-	  _inherits(Size, _Component3);
-
-	  function Size(props) {
-	    _classCallCheck(this, Size);
-
-	    var _this3 = _possibleConstructorReturn(this, (Size.__proto__ || Object.getPrototypeOf(Size)).call(this, props));
-
-	    _this3.state = {
-	      width: 300,
-	      height: 300
-	    };
-	    return _this3;
+	/*class Size extends Component{
+	  constructor(props) {
+	     super(props);
+	     this.state = {
+	       width:300,
+	       height:300
+	     }
 	  }
-
-	  _createClass(Size, [{
-	    key: "change",
-	    value: function change() {
-	      this.setState({
-	        width: this.refs.width.value,
-	        height: this.refs.height.value
-	      });
-	      this.props.getSize(this.refs.width.value, this.refs.height.value);
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "sizeBox" },
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          _react2.default.createElement(
-	            "h4",
-	            null,
-	            "在此处选择矩形宽度"
-	          ),
-	          _react2.default.createElement(
-	            "span",
-	            null,
-	            "width:"
-	          ),
-	          " ",
-	          _react2.default.createElement("input", { type: "range", min: "0", max: "1000", defaultValue: "300", onChange: this.change.bind(this), ref: "width" }),
-	          this.state.width
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          _react2.default.createElement(
-	            "h4",
-	            null,
-	            "在此处选择矩形高度"
-	          ),
-	          _react2.default.createElement(
-	            "span",
-	            null,
-	            "height:"
-	          ),
-	          " ",
-	          _react2.default.createElement("input", { type: "range", min: "0", max: "1000", defaultValue: "300", onChange: this.change.bind(this), ref: "height" }),
-	          this.state.height
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Size;
-	}(_react.Component);
-
-	;
+	  change(){
+	    this.setState({
+	      width:this.refs.width.value,
+	      height:this.refs.height.value
+	    });
+	    this.props.getSize(this.refs.width.value,this.refs.height.value)
+	  }
+	  render(){
+	    return(
+	      <div className = "sizeBox">
+	          <div>
+	              <h4>{"在此处选择矩形宽度"}</h4>
+	              <span>width:</span>
+	              {" "}
+	              <input type = "range" min = "0" max = "1000" defaultValue = "300" onChange = {this.change.bind(this)} ref = "width"/>
+	              {this.state.width}
+	          </div>
+	          <div>
+	              <h4>{"在此处选择矩形高度"}</h4>
+	              <span>height:</span>
+	              {" "}
+	              <input type = "range" min = "0" max = "1000" defaultValue = "300" onChange = {this.change.bind(this)} ref = "height"/>
+	              {this.state.height}
+	          </div>
+	      </div>
+	    )
+	  }
+	};*/
 
 	//这是svg图像的样式设置区域
 
-	var Color = function (_Component4) {
-	  _inherits(Color, _Component4);
+	var Color = function (_Component3) {
+	  _inherits(Color, _Component3);
 
 	  function Color(props) {
 	    _classCallCheck(this, Color);
 
-	    var _this4 = _possibleConstructorReturn(this, (Color.__proto__ || Object.getPrototypeOf(Color)).call(this, props));
+	    var _this3 = _possibleConstructorReturn(this, (Color.__proto__ || Object.getPrototypeOf(Color)).call(this, props));
 
-	    _this4.state = {
+	    _this3.state = {
 	      width: 1
 	    };
-	    return _this4;
+	    return _this3;
 	  }
 
 	  _createClass(Color, [{
@@ -21942,7 +21917,7 @@
 	exports.createChart = createChart;
 
 	//处理生成图形的函数
-	var chartId = 1;
+	var chartId = 2;
 	function createChart(type) {
 	  var temObj = {};
 	  if (type === "rect") {
@@ -22047,6 +22022,7 @@
 	    style
 	}
 	*/
+	//各个图形的名字数据
 
 /***/ },
 /* 180 */
@@ -22059,8 +22035,6 @@
 	});
 	exports.Position = undefined;
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -22068,6 +22042,12 @@
 	var _react2 = _interopRequireDefault(_react);
 
 	var _rectType = __webpack_require__(181);
+
+	var _circleType = __webpack_require__(182);
+
+	var _ellipseType = __webpack_require__(183);
+
+	var _tool = __webpack_require__(179);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22087,33 +22067,30 @@
 	    var _this = _possibleConstructorReturn(this, (Position.__proto__ || Object.getPrototypeOf(Position)).call(this, props));
 
 	    _this.state = {
-	      x: 100,
-	      y: 100
+	      type: ["rect", "circle", "ellipse", "line"],
+	      typeComponent: [_rectType.RectPos, _circleType.CirclePos, _ellipseType.EllipsePos]
 	    };
-	    _this.change = _this.change.bind(_this);
+
 	    return _this;
 	  }
 
 	  _createClass(Position, [{
-	    key: "change",
-	    value: function change(e) {
-	      this.setState({
-	        x: this.refs.x.value,
-	        y: this.refs.y.value
-	      });
-	      this.props.getPos(this.refs.x.value, this.refs.y.value);
-	    }
-	  }, {
 	    key: "render",
 	    value: function render() {
 	      var _props = this.props,
 	          currentObj = _props.currentObj,
 	          getPos = _props.getPos;
 
-	      return _react2.default.createElement(_rectType.Rect, _extends({}, currentObj, {
-	        change: this.change,
+	      var t = this;
+	      var Type;
+	      this.state.type.forEach(function (val, index) {
+	        if (val === currentObj.type) {
+	          Type = t.state.typeComponent[index];
+	        }
+	      });
+	      return _react2.default.createElement(Type, { currentObj: currentObj,
 	        getPos: getPos
-	      }));
+	      });
 	    }
 	  }]);
 
@@ -22131,7 +22108,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Rect = undefined;
+	exports.RectSize = exports.RectPos = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -22147,38 +22124,31 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Rect = exports.Rect = function (_Component) {
-	  _inherits(Rect, _Component);
+	var RectPos = exports.RectPos = function (_Component) {
+	  _inherits(RectPos, _Component);
 
-	  function Rect(props) {
-	    _classCallCheck(this, Rect);
+	  function RectPos(props) {
+	    _classCallCheck(this, RectPos);
 
-	    var _this = _possibleConstructorReturn(this, (Rect.__proto__ || Object.getPrototypeOf(Rect)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (RectPos.__proto__ || Object.getPrototypeOf(RectPos)).call(this, props));
 
-	    _this.state = {
-	      x: 100,
-	      y: 100
-	    };
 	    _this.change = _this.change.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(Rect, [{
+	  _createClass(RectPos, [{
 	    key: "change",
 	    value: function change(e) {
-	      this.setState({
-	        x: this.refs.x.value,
-	        y: this.refs.y.value
-	      });
+	      this.props.currentObj.x = this.refs.x.value;
+	      this.props.currentObj.y = this.refs.y.value;
+	      console.log(this.props.currentObj);
 	      this.props.getPos(this.refs.x.value, this.refs.y.value);
 	    }
 	  }, {
 	    key: "componentWillMount",
 	    value: function componentWillMount() {
-	      this.setState({
-	        x: this.props.x,
-	        y: this.props.y
-	      });
+	      console.log("我执行了");
+	      this.props.getPos(this.props.currentObj.x, this.props.currentObj.y);
 	    }
 	  }, {
 	    key: "render",
@@ -22200,8 +22170,8 @@
 	            "X:"
 	          ),
 	          " ",
-	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", defaultValue: "100", onChange: this.change, ref: "x" }),
-	          this.state.x
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", value: this.props.currentObj.x, onChange: this.change, ref: "x" }),
+	          this.props.currentObj.x
 	        ),
 	        _react2.default.createElement(
 	          "div",
@@ -22217,18 +22187,472 @@
 	            "Y:"
 	          ),
 	          " ",
-	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", ref: "y", defaultValue: "100", onChange: this.change }),
-	          this.state.y
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", ref: "y", value: this.props.currentObj.y, onChange: this.change }),
+	          this.props.currentObj.y
 	        )
 	      );
 	    }
 	  }]);
 
-	  return Rect;
+	  return RectPos;
 	}(_react.Component);
+
+	;
+
+	//矩形尺寸组件
+
+	var RectSize = exports.RectSize = function (_Component2) {
+	  _inherits(RectSize, _Component2);
+
+	  function RectSize(props) {
+	    _classCallCheck(this, RectSize);
+
+	    return _possibleConstructorReturn(this, (RectSize.__proto__ || Object.getPrototypeOf(RectSize)).call(this, props));
+	  }
+
+	  _createClass(RectSize, [{
+	    key: "change",
+	    value: function change() {
+	      this.props.currentObj.width = this.refs.width.value;
+	      this.props.currentObj.height = this.refs.height.value;
+	      this.props.getSize(this.refs.width.value, this.refs.height.value);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "sizeBox" },
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择矩形宽度"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "width:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "1000", value: this.props.currentObj.width, onChange: this.change.bind(this), ref: "width" }),
+	          this.props.currentObj.width
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择矩形高度"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "height:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "1000", value: this.props.currentObj.height, onChange: this.change.bind(this), ref: "height" }),
+	          this.props.currentObj.height
+	        )
+	      );
+	    }
+	  }]);
+
+	  return RectSize;
+	}(_react.Component);
+
+	;
 
 /***/ },
 /* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.CircleSize = exports.CirclePos = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CirclePos = exports.CirclePos = function (_Component) {
+	  _inherits(CirclePos, _Component);
+
+	  function CirclePos(props) {
+	    _classCallCheck(this, CirclePos);
+
+	    var _this = _possibleConstructorReturn(this, (CirclePos.__proto__ || Object.getPrototypeOf(CirclePos)).call(this, props));
+
+	    _this.change = _this.change.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(CirclePos, [{
+	    key: "change",
+	    value: function change(e) {
+	      this.props.currentObj.cx = this.refs.cx.value;
+	      this.props.currentObj.cy = this.refs.cy.value;
+	      console.log(this.props.currentObj);
+	      this.props.getPos(this.refs.cx.value, this.refs.cy.value);
+	    }
+	  }, {
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      console.log("我执行了");
+	      this.props.getPos(this.props.currentObj.cx, this.props.currentObj.cy);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "posBox" },
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择圆心横坐标"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "CX:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", value: this.props.currentObj.cx, onChange: this.change, ref: "cx" }),
+	          this.props.currentObj.cx
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择圆心纵坐标"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "CY:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", ref: "cy", value: this.props.currentObj.cy, onChange: this.change }),
+	          this.props.currentObj.cy
+	        )
+	      );
+	    }
+	  }]);
+
+	  return CirclePos;
+	}(_react.Component);
+
+	;
+
+	var CircleSize = exports.CircleSize = function (_Component2) {
+	  _inherits(CircleSize, _Component2);
+
+	  function CircleSize(props) {
+	    _classCallCheck(this, CircleSize);
+
+	    return _possibleConstructorReturn(this, (CircleSize.__proto__ || Object.getPrototypeOf(CircleSize)).call(this, props));
+	  }
+
+	  _createClass(CircleSize, [{
+	    key: "change",
+	    value: function change() {
+	      this.props.currentObj.r = this.refs.r.value;
+	      console.log(this.props.currentObj.r);
+	      this.props.getSize();
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "sizeBox" },
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择圆形的半径"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "r:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "400", value: this.props.currentObj.r, onChange: this.change.bind(this), ref: "r" }),
+	          this.props.currentObj.r
+	        )
+	      );
+	    }
+	  }]);
+
+	  return CircleSize;
+	}(_react.Component);
+
+	;
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.EllipseSize = exports.EllipsePos = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EllipsePos = exports.EllipsePos = function (_Component) {
+	  _inherits(EllipsePos, _Component);
+
+	  function EllipsePos(props) {
+	    _classCallCheck(this, EllipsePos);
+
+	    var _this = _possibleConstructorReturn(this, (EllipsePos.__proto__ || Object.getPrototypeOf(EllipsePos)).call(this, props));
+
+	    _this.change = _this.change.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(EllipsePos, [{
+	    key: "change",
+	    value: function change(e) {
+	      this.props.currentObj.cx = this.refs.cx.value;
+	      this.props.currentObj.cy = this.refs.cy.value;
+	      console.log(this.props.currentObj);
+	      this.props.getPos(this.refs.cx.value, this.refs.cy.value);
+	    }
+	  }, {
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      console.log("我执行了");
+	      this.props.getPos(this.props.currentObj.cx, this.props.currentObj.cy);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "posBox" },
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择圆心横坐标"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "CX:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", value: this.props.currentObj.cx, onChange: this.change, ref: "cx" }),
+	          this.props.currentObj.cx
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择圆心纵坐标"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "CY:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "800", ref: "cy", value: this.props.currentObj.cy, onChange: this.change }),
+	          this.props.currentObj.cy
+	        )
+	      );
+	    }
+	  }]);
+
+	  return EllipsePos;
+	}(_react.Component);
+
+	;
+
+	var EllipseSize = exports.EllipseSize = function (_Component2) {
+	  _inherits(EllipseSize, _Component2);
+
+	  function EllipseSize(props) {
+	    _classCallCheck(this, EllipseSize);
+
+	    return _possibleConstructorReturn(this, (EllipseSize.__proto__ || Object.getPrototypeOf(EllipseSize)).call(this, props));
+	  }
+
+	  _createClass(EllipseSize, [{
+	    key: "change",
+	    value: function change() {
+	      this.props.currentObj.rx = this.refs.rx.value;
+	      this.props.currentObj.ry = this.refs.ry.value;
+	      this.props.getSize(this.refs.rx.value, this.refs.ry.value);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "sizeBox" },
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择椭圆横向半径"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "RX:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "400", value: this.props.currentObj.rx, onChange: this.change.bind(this), ref: "rx" }),
+	          this.props.currentObj.rx
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "在此处选择椭圆纵向半径"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "RY:"
+	          ),
+	          " ",
+	          _react2.default.createElement("input", { type: "range", min: "0", max: "400", value: this.props.currentObj.ry, onChange: this.change.bind(this), ref: "ry" }),
+	          this.props.currentObj.ry
+	        )
+	      );
+	    }
+	  }]);
+
+	  return EllipseSize;
+	}(_react.Component);
+
+	;
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Size = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _rectType = __webpack_require__(181);
+
+	var _circleType = __webpack_require__(182);
+
+	var _ellipseType = __webpack_require__(183);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//这是尺寸设置区域
+	var Size = exports.Size = function (_Component) {
+	  _inherits(Size, _Component);
+
+	  function Size(props) {
+	    _classCallCheck(this, Size);
+
+	    var _this = _possibleConstructorReturn(this, (Size.__proto__ || Object.getPrototypeOf(Size)).call(this, props));
+
+	    _this.state = {
+	      type: ["rect", "circle", "ellipse", "line"],
+	      typeComponent: [_rectType.RectSize, _circleType.CircleSize, _ellipseType.EllipseSize]
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Size, [{
+	    key: "render",
+	    value: function render() {
+	      var _props = this.props,
+	          currentObj = _props.currentObj,
+	          getSize = _props.getSize;
+
+	      var Type,
+	          t = this;
+	      this.state.type.forEach(function (val, index) {
+	        if (val === currentObj.type) {
+	          Type = t.state.typeComponent[index];
+	        }
+	      });
+	      return _react2.default.createElement(Type, { currentObj: currentObj,
+	        getSize: getSize
+	      });
+	    }
+	  }]);
+
+	  return Size;
+	}(_react.Component);
+
+	;
+
+/***/ },
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22262,10 +22686,29 @@
 	    _this.state = {
 	      width: 300
 	    };
+	    _this.draw = _this.draw.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(RightPart, [{
+	    key: "draw",
+	    value: function draw() {
+	      console.log(this.props.store);
+	      var tu = [];
+	      this.props.store.forEach(function (val, index) {
+	        if (val.type === "rect") {
+	          tu.push(_react2.default.createElement("rect", { width: val.width, height: val.height, style: val.style, key: index, x: val.x, y: val.y }));
+	        }
+	        if (val.type === "circle") {
+	          tu.push(_react2.default.createElement("circle", { cx: val.cx, cy: val.cy, style: val.style, r: val.r, key: index }));
+	        }
+	        if (val.type === "ellipse") {
+	          tu.push(_react2.default.createElement("ellipse", { cx: val.cx, cy: val.cy, style: val.style, rx: val.rx, ry: val.ry, key: index }));
+	        }
+	      });
+	      return tu;
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      var _props = this.props,
@@ -22279,7 +22722,7 @@
 	        _react2.default.createElement(
 	          "svg",
 	          null,
-	          _react2.default.createElement("rect", { width: size.w, height: size.h, style: style, x: pos.x, y: pos.y })
+	          this.draw()
 	        )
 	      );
 	    }
@@ -22291,16 +22734,16 @@
 	exports.default = RightPart;
 
 /***/ },
-/* 183 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(184);
+	var content = __webpack_require__(187);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(186)(content, {});
+	var update = __webpack_require__(189)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22317,10 +22760,10 @@
 	}
 
 /***/ },
-/* 184 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(185)();
+	exports = module.exports = __webpack_require__(188)();
 	// imports
 
 
@@ -22331,7 +22774,7 @@
 
 
 /***/ },
-/* 185 */
+/* 188 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22386,7 +22829,7 @@
 	};
 
 /***/ },
-/* 186 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

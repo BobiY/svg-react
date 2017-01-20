@@ -21793,44 +21793,6 @@
 
 	;
 
-	//这是尺寸设置区域
-	/*class Size extends Component{
-	  constructor(props) {
-	     super(props);
-	     this.state = {
-	       width:300,
-	       height:300
-	     }
-	  }
-	  change(){
-	    this.setState({
-	      width:this.refs.width.value,
-	      height:this.refs.height.value
-	    });
-	    this.props.getSize(this.refs.width.value,this.refs.height.value)
-	  }
-	  render(){
-	    return(
-	      <div className = "sizeBox">
-	          <div>
-	              <h4>{"在此处选择矩形宽度"}</h4>
-	              <span>width:</span>
-	              {" "}
-	              <input type = "range" min = "0" max = "1000" defaultValue = "300" onChange = {this.change.bind(this)} ref = "width"/>
-	              {this.state.width}
-	          </div>
-	          <div>
-	              <h4>{"在此处选择矩形高度"}</h4>
-	              <span>height:</span>
-	              {" "}
-	              <input type = "range" min = "0" max = "1000" defaultValue = "300" onChange = {this.change.bind(this)} ref = "height"/>
-	              {this.state.height}
-	          </div>
-	      </div>
-	    )
-	  }
-	};*/
-
 	//这是svg图像的样式设置区域
 
 	var Color = function (_Component3) {
@@ -21850,14 +21812,19 @@
 	  _createClass(Color, [{
 	    key: "change",
 	    value: function change() {
-	      this.setState({
-	        width: this.refs.strokeWidth.value
-	      });
+	      this.props.currentObj.style = {
+	        stroke: this.refs.stroke.value,
+	        strokeWidth: this.refs.strokeWidth.value,
+	        fill: this.refs.fill.value
+	      };
 	      this.props.getStyle(this.refs.stroke.value, this.refs.fill.value, this.refs.strokeWidth.value);
 	    }
 	  }, {
 	    key: "render",
 	    value: function render() {
+	      var style = this.props.currentObj.style;
+
+	      console.log(style);
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "colorBox" },
@@ -21870,7 +21837,7 @@
 	            "stoke:"
 	          ),
 	          " ",
-	          _react2.default.createElement("input", { type: "color", onChange: this.change.bind(this), ref: "stroke", defaultValue: "#ff0000" })
+	          _react2.default.createElement("input", { type: "color", onChange: this.change.bind(this), ref: "stroke", value: style.stroke })
 	        ),
 	        _react2.default.createElement(
 	          "p",
@@ -21881,7 +21848,7 @@
 	            "fill:"
 	          ),
 	          " ",
-	          _react2.default.createElement("input", { type: "color", onChange: this.change.bind(this), ref: "fill", defaultValue: "#ffffff" })
+	          _react2.default.createElement("input", { type: "color", onChange: this.change.bind(this), ref: "fill", value: style.fill })
 	        ),
 	        _react2.default.createElement(
 	          "p",
@@ -21892,7 +21859,7 @@
 	            "stoke-width:"
 	          ),
 	          " ",
-	          _react2.default.createElement("input", { type: "range", onChange: this.change.bind(this), ref: "strokeWidth", min: "0", max: "10", defaultValue: "1" })
+	          _react2.default.createElement("input", { type: "range", onChange: this.change.bind(this), ref: "strokeWidth", min: "0", max: "10", value: style.strokeWidth })
 	        )
 	      );
 	    }
@@ -22693,7 +22660,6 @@
 	  _createClass(RightPart, [{
 	    key: "draw",
 	    value: function draw() {
-	      console.log(this.props.store);
 	      var tu = [];
 	      this.props.store.forEach(function (val, index) {
 	        if (val.type === "rect") {

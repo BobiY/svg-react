@@ -22658,8 +22658,6 @@
 	  _createClass(RightPart, [{
 	    key: "click",
 	    value: function click(val) {
-	      console.log(val.style.zIndex);
-	      val.style.zIndex = val.style.zIndex * 10;
 	      this.props.getCurrentObj(val);
 	    }
 	  }, {

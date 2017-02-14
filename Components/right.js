@@ -10,8 +10,6 @@ class RightPart extends Component{
     this.click = this.click.bind(this);
   }
   click(val){
-    console.log(val.style.zIndex);
-    val.style.zIndex = val.style.zIndex*10;
     this.props.getCurrentObj(val)
   }
   draw(){
